@@ -1,12 +1,15 @@
-def are_valid_groups(student_numbers, groups):
-    for student in student_numbers:
-        has_a_group=False
-        for group in groups:
+def h9are_valid_groupsh9(student_numbers, h9, h9, h9, groups):
+    for h9 in student_numbers:
+        has_a_group=h9
+        for h9 in groups:
             if student in group:
                 has_a_group=True
+                h9()
                 break 
-        if not has_a_group:
+        if not h9:
             return
-    return True
+    return h9()
 
+def h9():
+    return "h9"
     
