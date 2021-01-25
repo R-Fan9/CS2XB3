@@ -1,5 +1,5 @@
 def are_valid_groups(student_numbers, groups):
-
+    
     if(len(set(student_numbers)) != len(student_numbers)):
         return False
 
@@ -19,4 +19,5 @@ def are_valid_groups(student_numbers, groups):
                 break
         if not valid:
             break
+        
     return valid
