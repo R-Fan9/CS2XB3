@@ -7,8 +7,6 @@ def my_quicksort(L):
     for i in range(len(L)):
         L[i] = copy[i]
 
-
-
 def quicksort_copy(L):
     if len(L) < 2:
         return L
@@ -38,6 +36,10 @@ def create_near_sorted_list(n, factor):
     return L
 
 
+
+
+
+
 def quicksort_inplace(L):
     my_quicksort_inplace(L,0,len(L)-1)
     
@@ -57,21 +59,39 @@ def partition(L,low,high):
     L[index], L[high] = L[high], L[index]
     return index
 
-def time(runs,n):
+def time(runs,n,f):
     for i in range(0,n):
         totatime = 0
         L=create_random_list(i)
         for run in range(runs):
             # print(L)
             start = timeit.default_timer()
-            quicksort_inplace(L)
+            f(L)
             end = timeit.default_timer()
             totatime+=end-start
             # print(L)
-        print(i,totatime/runs)
+        print(totatime/runs)
 
-#time(10,650)
+#time(10,650,quicksort_inplace)
 
+
+def dual_pivot_quicksort(L):
+    if len(L) < 2:
+        return L
+
+    pivot1=min(L[0],L[1])
+    pivot2=max(L[0],L[1])
+
+    fst, scd, thd = [], [], []
+
+    for num in L[2:]:
+        if(num < pivot1):
+            fst.append(num)
+        elif(num < pivot2):
+            scd.append(num)
+        else:
+            thd.append(num)
+    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
 
 def dual_pivot_quicksort(L):
     if len(L) < 2:
@@ -91,23 +111,7 @@ def dual_pivot_quicksort(L):
             thd.append(num)
     return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
 
-def dual_pivot_quicksort(L):
-    if len(L) < 2:
-        return L
-
-    pivot1=min(L[0],L[1])
-    pivot2=max(L[0],L[1])
-
-    fst, scd, thd = [], [], []
-
-    for num in L[2:]:
-        if(num < pivot1):
-            fst.append(num)
-        elif(num < pivot2):
-            scd.append(num)
-        else:
-            thd.append(num)
-    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+# time(20,1000,dual_pivot_quicksort)
 
 def tri_pivot_quicksort(L):
     if len(L) < 2:
@@ -118,8 +122,8 @@ def tri_pivot_quicksort(L):
         ft = [L[0],L[1],L[2]]
         ft.sort()
         pivot1=ft[0]
-        pivot3=ft[1]
-        pivot2=ft[2]
+        pivot2=ft[1]
+        pivot3=ft[2]
 
         fst, scd, thd, fth = [], [], [], []
         
@@ -137,6 +141,8 @@ def tri_pivot_quicksort(L):
         tri_pivot_quicksort(scd) + [pivot2] + 
         tri_pivot_quicksort(thd) + [pivot3] +
         tri_pivot_quicksort(fth))
+
+time(20,1000,tri_pivot_quicksort)
 
 def quad_pivot_quicksort(L):
     if len(L) < 2:
@@ -156,5 +162,3 @@ def quad_pivot_quicksort(L):
             thd.append(num)
     return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
 
-
-print(tri_pivot_quicksort([5,4,3,2,1]))
