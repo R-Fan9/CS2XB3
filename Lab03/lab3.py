@@ -113,16 +113,15 @@ def tri_pivot_quicksort(L):
     if len(L) < 2:
         return L
     elif len(L) < 3:
-        return dual_pivot_quicksort(L)
+        return [min(L), max(L)]
     else:
         ft = [L[0],L[1],L[2]]
         ft.sort()
         pivot1=ft[0]
-        pivot3=ft[1]
-        pivot2=ft[2]
-
+        pivot2=ft[1]
+        pivot3=ft[2]
         fst, scd, thd, fth = [], [], [], []
-        
+
         for num in L[3:]:
             if(num < pivot1):
                 fst.append(num)
@@ -138,23 +137,59 @@ def tri_pivot_quicksort(L):
         tri_pivot_quicksort(thd) + [pivot3] +
         tri_pivot_quicksort(fth))
 
+def middleOfThree(a, b, c) : 
+      
+    # Compare each three number to find  
+    # middle number. Enter only if a > b 
+    if a > b :  
+        if (b > c): 
+            return b 
+        elif (a > c) : 
+            return c 
+        else : 
+            return a  
+    else: 
+        # Decided a is not greater than b. 
+        if (a > c) : 
+            return a 
+        elif (b > c) : 
+            return c 
+        else : 
+            return b 
+
 def quad_pivot_quicksort(L):
     if len(L) < 2:
         return L
+    elif len(L) < 3:
+        return [min(L), max(L)]
+    elif len(L) < 4:
+        return [min(L), middleOfThree(L[0], L[1], L[2]), max(L)]
+    else:
+        ft = [L[0],L[1],L[2],L[3]]
+        ft.sort()
+        p1 = ft[0]
+        p2 = ft[1]
+        p3 = ft[2]
+        p4 = ft[3]
 
-    pivot1=min(L[0],L[1])
-    pivot2=max(L[0],L[1])
+        fst, scd, thd, fth, fiv = [], [], [], [], []
 
-    fst, scd, thd = [], [], []
+        for num in L[4:]:
+            if(num < p1):
+                fst.append(num)
+            elif(num < p2):
+                scd.append(num)
+            elif(num < p3):
+                thd.append(num)
+            elif(num < p4):
+                fth.append(num)
+            else:
+                fiv.append(num)
+        return (quad_pivot_quicksort(fst) + [p1] + 
+        quad_pivot_quicksort(scd) + [p2] + 
+        quad_pivot_quicksort(thd) + [p3] +
+        quad_pivot_quicksort(fth) + [p4] +
+        quad_pivot_quicksort(fiv))
 
-    for num in L[2:]:
-        if(num < pivot1):
-            fst.append(num)
-        elif(num < pivot2):
-            scd.append(num)
-        else:
-            thd.append(num)
-    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
 
-
-print(tri_pivot_quicksort([5,4,3,2,1]))
+print(quad_pivot_quicksort([5,4,3,2,1]))
