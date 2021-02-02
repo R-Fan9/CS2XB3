@@ -62,7 +62,7 @@ def time(runs,n):
         for run in range(runs):
             # print(L)
             start = timeit.default_timer()
-            my_quicksort(L)
+            quicksort_inplace(L)
             end = timeit.default_timer()
             totatime+=end-start
             # print(L)
