@@ -7,6 +7,8 @@ def my_quicksort(L):
     for i in range(len(L)):
         L[i] = copy[i]
 
+
+
 def quicksort_copy(L):
     if len(L) < 2:
         return L
@@ -68,4 +70,91 @@ def time(runs,n):
             # print(L)
         print(i,totatime/runs)
 
-time(10,650)
+#time(10,650)
+
+
+def dual_pivot_quicksort(L):
+    if len(L) < 2:
+        return L
+
+    pivot1=min(L[0],L[1])
+    pivot2=max(L[0],L[1])
+
+    fst, scd, thd = [], [], []
+
+    for num in L[2:]:
+        if(num < pivot1):
+            fst.append(num)
+        elif(num < pivot2):
+            scd.append(num)
+        else:
+            thd.append(num)
+    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+
+def dual_pivot_quicksort(L):
+    if len(L) < 2:
+        return L
+
+    pivot1=min(L[0],L[1])
+    pivot2=max(L[0],L[1])
+
+    fst, scd, thd = [], [], []
+
+    for num in L[2:]:
+        if(num < pivot1):
+            fst.append(num)
+        elif(num < pivot2):
+            scd.append(num)
+        else:
+            thd.append(num)
+    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+
+def tri_pivot_quicksort(L):
+    if len(L) < 2:
+        return L
+    elif len(L) < 3:
+        return dual_pivot_quicksort(L)
+    else:
+        ft = [L[0],L[1],L[2]]
+        ft.sort()
+        pivot1=ft[0]
+        pivot3=ft[1]
+        pivot2=ft[2]
+
+        fst, scd, thd, fth = [], [], [], []
+        
+        for num in L[3:]:
+            if(num < pivot1):
+                fst.append(num)
+            elif(num < pivot2):
+                scd.append(num)
+            elif(num < pivot3):
+                thd.append(num)
+            else:
+                fth.append(num)
+
+        return (tri_pivot_quicksort(fst) + [pivot1] + 
+        tri_pivot_quicksort(scd) + [pivot2] + 
+        tri_pivot_quicksort(thd) + [pivot3] +
+        tri_pivot_quicksort(fth))
+
+def quad_pivot_quicksort(L):
+    if len(L) < 2:
+        return L
+
+    pivot1=min(L[0],L[1])
+    pivot2=max(L[0],L[1])
+
+    fst, scd, thd = [], [], []
+
+    for num in L[2:]:
+        if(num < pivot1):
+            fst.append(num)
+        elif(num < pivot2):
+            scd.append(num)
+        else:
+            thd.append(num)
+    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+
+
+print(tri_pivot_quicksort([5,4,3,2,1]))

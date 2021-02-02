@@ -1,6 +1,11 @@
 import timeit
+<<<<<<< HEAD
+
+
+=======
 import random
 from enum import Enum, auto
+>>>>>>> 9ccaf980126df5fba0f995da5f0503478035de11
 
 def test_copy_time(alist):
     start = timeit.default_timer()
@@ -13,7 +18,11 @@ def generate_list(n):
     alist = [i for i in range(n)]
     return alist
 
+<<<<<<< HEAD
+def test_copy(numOfRuns, maxSize):
+=======
 def test_copy(numOfRuns, maxSize): # main function for testing copy() time
+>>>>>>> 9ccaf980126df5fba0f995da5f0503478035de11
 
     for x in range(maxSize):
 
@@ -25,8 +34,16 @@ def test_copy(numOfRuns, maxSize): # main function for testing copy() time
 
         print(x, totalTimeForOneSize/numOfRuns)
 
+<<<<<<< HEAD
+
+
 #test_copy(1000, 1000)
 
+
+=======
+#test_copy(1000, 1000)
+
+>>>>>>> 9ccaf980126df5fba0f995da5f0503478035de11
 def test_lookup_time(alist, index):
     start = timeit.default_timer()
     alist[index]
@@ -34,7 +51,12 @@ def test_lookup_time(alist, index):
     time = end - start
     return time
 
+<<<<<<< HEAD
+
+def test_lookup(numOfRuns):
+=======
 def test_lookup(numOfRuns):  # main function for testing lookup time
+>>>>>>> 9ccaf980126df5fba0f995da5f0503478035de11
     alist = [i for i in range(1000000)]
     for i in range(len(alist)):
         totalTime = 0
@@ -44,6 +66,13 @@ def test_lookup(numOfRuns):  # main function for testing lookup time
 
         print(i, totalTime/numOfRuns)
 
+<<<<<<< HEAD
+test_lookup(1000)
+
+
+
+
+=======
 # test_lookup(1000)
 
 def time_append(alist, elem):
@@ -88,3 +117,4 @@ def test_append2(runs): # additional function for testing append() time
 # test_append2(1)
 
 # test_append2(100)
+>>>>>>> 9ccaf980126df5fba0f995da5f0503478035de11
