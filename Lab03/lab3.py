@@ -1,9 +1,13 @@
 import random
 import math
 import timeit
+import sys
+import numpy
+from sort import *
 
+# traditional quicksort
 def my_quicksort(L):
-    copy = quicksort_copy(L)
+    # return quicksort_copy(L)
     for i in range(len(L)):
         L[i] = copy[i]
 
@@ -25,7 +29,6 @@ def create_random_list(n):
         L.append(random.randint(1,n))
     return L
 
-
 def create_near_sorted_list(n, factor):
     L = create_random_list(n)
     L.sort()
@@ -35,30 +38,62 @@ def create_near_sorted_list(n, factor):
         L[index1], L[index2] = L[index2], L[index1]
     return L
 
+def swap(L, f, s):
+    temp = L[f]
+    L[f] = L[s]
+    L[s] = temp
 
+# bubble sort
+def bubble_sort(L):
+    for i in range(len(L)):
+        for j in range(len(L) - 1 - i):
+            if L[j] > L[j+1]:
+                swap(L, j, j+1)
 
+# insertion sort
+def insertion_sort(L):
+    for i in range(1, len(L)):
+        insert_into(L, i)
 
+def insert_into(L, n):
+    i = n
+    while i > 0:
+        if L[i] < L[i-1]:
+            swap(L, i, i-1)
+        else:
+            return
+        i -= 1
 
+# selection sort
+def selection_sort(L):
+    for i in range(len(L)):
+        minDex = find_min_index(L, i)
+        swap(L, i, minDex)
 
-def quicksort_inplace(L):
-    my_quicksort_inplace(L,0,len(L)-1)
-    
-def my_quicksort_inplace(L,low,high):
-    if low<high:
-        p_idx = partition(L,low,high)
-        my_quicksort_inplace(L,low,p_idx-1)
-        my_quicksort_inplace(L,p_idx+1,high)
+def find_min_index(L, n):
+    minDex = n
+    for i in range(n+1, len(L)):
+        if L[i] < L[minDex]:
+            minDex = i
+        
+    return minDex
 
-def partition(L,low,high):
-    index = low
-    pivot = L[high]
-    for i in range(low,high):
-        if L[i] <=  pivot:
-            L[index], L[i] = L[i], L[index]
-            index +=1
-    L[index], L[high] = L[high], L[index]
-    return index
+# testing whether the multi-pivot quicksorts produce the same results as the
+# traditional and inplace quicksorts
+def test_multi_pivot_sorts():
+     for i in range(10000):
+        L = create_random_list(i)
+        aCopy=L.copy()
+        bCopy=L.copy()
+        my_quicksort(aCopy)
+        quicksort_inplace(bCopy)
+        c=dual_pivot_quicksort(L.copy())
+        d=tri_pivot_quicksort(L.copy())
+        e=quad_pivot_quicksort(L.copy())
 
+        assert(aCopy==bCopy==c==d==e)
+
+# main function used to collect data-points for graphs
 def time(runs,n,f):
     for i in range(0,n):
         totatime = 0
@@ -72,93 +107,127 @@ def time(runs,n,f):
             # print(L)
         print(totatime/runs)
 
-#time(10,650,quicksort_inplace)
+# used for testing final_sort
+def timetest(runs, length, sort):
+    total = 0
+    for _ in range(runs):
+        L = create_random_list(length)
+        start = timeit.default_timer()
+        sort(L)
+        end = timeit.default_timer()
+        total += end - start
+    return total/runs
 
+# used for testing quicksorts with near-sorted lists as inputs
+def time_near_sort(runs,n,f,factor):
+    for i in range(0,n):
+        totatime = 0
+        L=create_near_sorted_list(i,factor)
+        for run in range(runs):
+            start = timeit.default_timer()
+            f(L)
+            end = timeit.default_timer()
+            totatime+=end-start
+        print(totatime/runs)
 
-def dual_pivot_quicksort(L):
-    if len(L) < 2:
-        return L
+# used for testing how near-sorted factor affects the performance of quicksorts
+def time_different_factors(runs,f):
+    for i in numpy.arange(0, 0.1, 0.001):
+        totatime = 0
+        L=create_near_sorted_list(1000,i)
+        for run in range(runs):
+            start = timeit.default_timer()
+            f(L)
+            end = timeit.default_timer()
+            totatime+=end-start
+        print(totatime/runs)
 
-    pivot1=min(L[0],L[1])
-    pivot2=max(L[0],L[1])
+# used for testing quicksorts with reverse-sorted lists as inputs
+def time_reverse_sort(runs,n,f):
+    for i in range(1,n):
+        totatime = 0
+        L=create_random_list(i)
+        L.sort()
+        L=L[::-1]
+        for run in range(runs):
+            start = timeit.default_timer()
+            f(L)
+            end = timeit.default_timer()
+            totatime+=end-start
+        print(totatime/runs)
 
-    fst, scd, thd = [], [], []
+# test_multi_pivot_sorts()
 
-    for num in L[2:]:
-        if(num < pivot1):
-            fst.append(num)
-        elif(num < pivot2):
-            scd.append(num)
-        else:
-            thd.append(num)
-    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+# sys.stdout = open('my_quick_sort_with_no_replacements_15r_650n', 'w')
+# time(15,600,my_quicksort)
 
-def dual_pivot_quicksort(L):
-    if len(L) < 2:
-        return L
+# sys.stdout = open('quicksort_inplace_15r_650n', 'w')
+#time(15,650,quicksort_inplace)
 
-    pivot1=min(L[0],L[1])
-    pivot2=max(L[0],L[1])
-
-    fst, scd, thd = [], [], []
-
-    for num in L[2:]:
-        if(num < pivot1):
-            fst.append(num)
-        elif(num < pivot2):
-            scd.append(num)
-        else:
-            thd.append(num)
-    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
-
+# sys.stdout = open('dual_pivot_quicksort_20r_1000n', 'w')
 # time(20,1000,dual_pivot_quicksort)
 
-def tri_pivot_quicksort(L):
-    if len(L) < 2:
-        return L
-    elif len(L) < 3:
-        return dual_pivot_quicksort(L)
-    else:
-        ft = [L[0],L[1],L[2]]
-        ft.sort()
-        pivot1=ft[0]
-        pivot2=ft[1]
-        pivot3=ft[2]
+# sys.stdout = open('tri_pivot_quicksort_20r_1000n', 'w')
+# time(20,1000,tri_pivot_quicksort
 
-        fst, scd, thd, fth = [], [], [], []
-        
-        for num in L[3:]:
-            if(num < pivot1):
-                fst.append(num)
-            elif(num < pivot2):
-                scd.append(num)
-            elif(num < pivot3):
-                thd.append(num)
-            else:
-                fth.append(num)
+# sys.stdout = open('i_1000', 'w')
+# for i in range(1000):
+#     print(i)
 
-        return (tri_pivot_quicksort(fst) + [pivot1] + 
-        tri_pivot_quicksort(scd) + [pivot2] + 
-        tri_pivot_quicksort(thd) + [pivot3] +
-        tri_pivot_quicksort(fth))
+# sys.stdout = open('bubble_avg', 'w')
+# time(15,600,bubble_sort)
+# sys.stdout = open('insert_avg', 'w')
+# time(15,600,insertion_sort)
+# sys.stdout = open('select_avg', 'w')
+# time(15,600,selection_sort)
+# sys.stdout = open('quad_avg', 'w')
+# time(15,600,quad_pivot_quicksort)
 
-time(20,1000,tri_pivot_quicksort)
+# sys.stdout = open('bubble_avg_f0.01', 'w')
+# time_near_sort(5,1000,bubble_sort,0.01)
+# sys.stdout = open('insert_avg_f0.01', 'w')
+# time_near_sort(5,1000,insertion_sort,0.01)
+# sys.stdout = open('select_avg_f0.01', 'w')
+# time_near_sort(5,1000,selection_sort,0.01)
+# sys.stdout = open('quad_avg_f0.01', 'w')
+# time_near_sort(5,1000,quad_pivot_quicksort,0.01)
 
-def quad_pivot_quicksort(L):
-    if len(L) < 2:
-        return L
+# sys.stdout = open('i_0.01-1', 'w')
+# for i in numpy.arange(0, 1, 0.01):
+#     print(i)
 
-    pivot1=min(L[0],L[1])
-    pivot2=max(L[0],L[1])
+# sys.stdout = open('i_0.001-0.1', 'w')
+# for i in numpy.arange(0, 0.1, 0.001):
+#     print(i)
 
-    fst, scd, thd = [], [], []
+# sys.stdout = open('bubble_factor_test', 'w')
+# time_different_factors(5,bubble_sort)
+# sys.stdout = open('insert_factor_test', 'w')
+# time_different_factors(5,insertion_sort)
+# sys.stdout = open('select_factor_test', 'w')
+# time_different_factors(5,selection_sort)
+# sys.stdout = open('quad_factor_test', 'w')
+# time_different_factors(5,quad_pivot_quicksort)
 
-    for num in L[2:]:
-        if(num < pivot1):
-            fst.append(num)
-        elif(num < pivot2):
-            scd.append(num)
-        else:
-            thd.append(num)
-    return dual_pivot_quicksort(fst) + [pivot1] + dual_pivot_quicksort(scd) + [pivot2] + dual_pivot_quicksort(thd)
+# sys.stdout = open('bubble_reverse', 'w')
+# time_reverse_sort(15,600,bubble_sort)
+# sys.stdout = open('insert_reverse', 'w')
+# time_reverse_sort(15,600,insertion_sort)
+# sys.stdout = open('select_reverse', 'w')
+# time_reverse_sort(15,600,selection_sort)
+# sys.stdout = open('quad_reverse', 'w')
+# time_reverse_sort(15,600,quad_pivot_quicksort)
 
+# sys.stdout = open('quad_best_test', 'w')
+# time(20,1000,quad_quicksort)
+# sys.stdout = open('final_quicksort_best_test', 'w')
+# time(20,1000, final_sort)
+
+# sys.stdout = open('final_sort_vs_quad', 'w')
+# for i in range(0, 1000, 50):
+#     print(i,
+#     timetest(1000, i, quad_pivot_quicksort),
+#     timetest(1000, i, final_sort))
+
+# sys.stdout = open('worst/final_worst', 'w')
+# time_reverse_sort(15,1000, final_sort)
