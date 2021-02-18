@@ -85,7 +85,7 @@ def test_sorts():
         bCopy=L.copy()
         cCopy=L.copy()
         mergesort_bottom(aCopy)
-        mergesort_three_way(bCopy)
+        mergesort_three(bCopy)
         mergesort(cCopy)
         assert(aCopy==bCopy==cCopy)
     print("Done")
@@ -93,7 +93,7 @@ def test_sorts():
 # sys.stdout = open('traditional_merge_sort', 'w')
 # time(15,1000,mergesort)
 # sys.stdout = open('three_way_merge_sort', 'w')
-# # time(15,1000,mergesort_three_way)
+# # time(15,1000,mergesort_three)
 # sys.stdout = open('bottom_up_merge_sort', 'w')
 # time(15,1000,mergesort_bottom)
 

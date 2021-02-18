@@ -1,6 +1,6 @@
 import random
 
-def mergesort_three_way(L):
+def mergesort_three(L):
     if len(L) <= 1:
         return
     if len(L) == 2:
@@ -11,15 +11,15 @@ def mergesort_three_way(L):
     third_2 = len(L)//3 * 2
     left, middle, right = L[:third_1], L[third_1:third_2],L[third_2:]
     #Mergesort core
-    mergesort_three_way(left)
-    mergesort_three_way(middle)
-    mergesort_three_way(right)
-    temp = merge_three_way(left, middle, right)
+    mergesort_three(left)
+    mergesort_three(middle)
+    mergesort_three(right)
+    temp = merge_three(left, middle, right)
     #Copy the sorted list to L
     for i in range(len(temp)):
         L[i] = temp[i]
 
-def merge_three_way(left, middle, right):
+def merge_three(left, middle, right):
     L = []
     i = j = k = 0
     while i < len(left) or k < len(middle) or j < len(right):
