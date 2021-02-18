@@ -1,25 +1,20 @@
 import random
 
 def mergesort_three_way(L):
-    
     if len(L) <= 1:
         return
-    
     if len(L) == 2:
         if L[0] > L[1]:
             L[0], L[1] = L[1], L[0]
         return L
-
     third_1 = len(L)//3
     third_2 = len(L)//3 * 2
     left, middle, right = L[:third_1], L[third_1:third_2],L[third_2:]
-
     #Mergesort core
     mergesort_three_way(left)
     mergesort_three_way(middle)
     mergesort_three_way(right)
     temp = merge_three_way(left, middle, right)
-
     #Copy the sorted list to L
     for i in range(len(temp)):
         L[i] = temp[i]
@@ -72,25 +67,25 @@ def merge_three_way(left, middle, right):
                 k+=1
     return L
 
+aux=[]
 def mergesort_bottom(L):
     n = len(L)
     i = 1
+    global aux
     aux = [0 for i in L]
-
     while i < n:
         j = 0
         while j < n - i:
-            merge_bottom(L, aux,  j, j+i-1, min(j+i+i-1, n-1))
+            merge_bottom(L,  j, j+i-1, min(j+i+i-1, n-1))
             j = j + i + i
         i = i+i
 
-def merge_bottom(L, aux, start, mid, end):
+def merge_bottom(L, start, mid, end):
+    global aux
     i = start
     j = mid+1
-
     for x in range(start, end+1):
         aux[x] = L[x]
-
     for x in range(start, end+1):
         if i > mid:
             L[x] = aux[j]

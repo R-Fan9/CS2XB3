@@ -24,7 +24,6 @@ def mergesort(L):
 def merge(left, right):
     L = []
     i = j = 0
-
     while i < len(left) or j < len(right):
         #Check it there's still elements to be merged from left and/or right
         if i >= len(left):
@@ -88,14 +87,13 @@ def test_sorts():
         mergesort_bottom(aCopy)
         mergesort_three_way(bCopy)
         mergesort(cCopy)
-
         assert(aCopy==bCopy==cCopy)
     print("Done")
 
 # sys.stdout = open('traditional_merge_sort', 'w')
 # time(15,1000,mergesort)
 # sys.stdout = open('three_way_merge_sort', 'w')
-# time(15,1000,mergesort_three_way)
+# # time(15,1000,mergesort_three_way)
 # sys.stdout = open('bottom_up_merge_sort', 'w')
 # time(15,1000,mergesort_bottom)
 
