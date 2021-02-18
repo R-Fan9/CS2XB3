@@ -7,8 +7,6 @@ def my_quicksort(L):
     for i in range(len(L)):
         L[i] = copy[i]
 
-
-
 def quicksort_copy(L):
     if len(L) < 2:
         return L
@@ -39,7 +37,7 @@ def create_near_sorted_list(n, factor):
 
 
 def quicksort_inplace(L):
-    my_quicksort_inplace(L,0,len(L)-1)
+    my_quicksort_inplace(L, 0, len(L)-1)
     
 def my_quicksort_inplace(L,low,high):
     if low<high:
@@ -138,7 +136,6 @@ def tri_pivot_quicksort(L):
         tri_pivot_quicksort(fth))
 
 def middleOfThree(a, b, c) : 
-      
     # Compare each three number to find  
     # middle number. Enter only if a > b 
     if a > b :  
