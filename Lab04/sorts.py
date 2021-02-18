@@ -24,7 +24,6 @@ def mergesort_three_way(L):
     for i in range(len(temp)):
         L[i] = temp[i]
 
-
 def merge_three_way(left, middle, right):
     L = []
     i = j = k = 0
@@ -76,32 +75,32 @@ def merge_three_way(left, middle, right):
 def mergesort_bottom(L):
     n = len(L)
     i = 1
+    aux = [0 for i in L]
+
     while i < n:
         j = 0
         while j < n - i:
-            merge_bottom(L, j, j+i-1, min(j+i+i-1, n-1))
+            merge_bottom(L, aux,  j, j+i-1, min(j+i+i-1, n-1))
             j = j + i + i
         i = i+i
 
-def merge_bottom(L, start, mid, end):
+def merge_bottom(L, aux, start, mid, end):
     i = start
     j = mid+1
 
-    a = [0 for i in L]
     for x in range(start, end+1):
-        a[x] = L[x]
+        aux[x] = L[x]
 
     for x in range(start, end+1):
         if i > mid:
-            L[x] = a[j]
+            L[x] = aux[j]
             j += 1
         elif j > end:
-            L[x] = a[i]
+            L[x] = aux[i]
             i += 1
-        elif a[j] < a[i]:
-            L[x] = a[j]
+        elif aux[j] < aux[i]:
+            L[x] = aux[j]
             j += 1
         else:
-            L[x] = a[i]
+            L[x] = aux[i]
             i += 1
-

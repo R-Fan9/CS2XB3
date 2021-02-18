@@ -55,3 +55,30 @@ def create_random_list(n):
     for _ in range(n):
         L.append(random.randint(1,n))
     return L
+
+def time(runs,n,f):
+    for i in range(0,n):
+        totatime = 0
+        L=create_random_list(i)
+        for run in range(runs):
+            # print(L)
+            start = timeit.default_timer()
+            f(L)
+            end = timeit.default_timer()
+            totatime+=end-start
+            # print(L)
+        print(totatime/runs)
+
+
+def test_sorts():
+    for i in range(10000):
+        L = create_random_list(i)
+        aCopy=L.copy()
+        bCopy=L.copy()
+        cCopy=L.copy()
+        mergesort_bottom(aCopy)
+        mergesort_three_way(bCopy)
+        mergesort(cCopy)
+
+        assert(aCopy==bCopy==cCopy)
+    print("Done")
