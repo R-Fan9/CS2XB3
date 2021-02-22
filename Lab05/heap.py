@@ -4,7 +4,18 @@ class Heap:
     length = 0
     data = []
 
-    def __init__(self, L):
+    def __init__(self, L, build_option):
+        if build_option == 1:
+            self.data = L
+            self.length = len(L)
+            self.build_heap1()
+        elif build_option == 2:
+            self.build_heap2(L)
+        else:
+            self.data = L
+            self.length = len(L)
+            self.build_heap3()
+
         #   build_heap1:
         # self.data = L
         # self.length = len(L)
@@ -14,9 +25,9 @@ class Heap:
         # self.build_heap2(L)
 
         #   build_heap3:
-        self.data = L
-        self.length = len(L)
-        self.build_heap3()
+        # self.data = L
+        # self.length = len(L)
+        # self.build_heap3()
 
     def build_heap1(self):
         for i in range(self.length // 2 - 1, -1, -1):
@@ -27,11 +38,11 @@ class Heap:
             self.insert(elem)
 
     def build_heap3(self):
-        while not self._is_heap():
+        while not self.is_heap():
             for i in range(self.length):
                 self.sink(i)
 
-    def _is_heap(self):
+    def is_heap(self):
         for i in range(self.length // 2):
             left = self.left(i)
             right = self.right(i)
