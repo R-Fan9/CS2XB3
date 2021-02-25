@@ -3,6 +3,7 @@ import timeit
 import sys
 
 from heap import *
+from k_heap import *
 
 def create_random_list(n):
     L = []
@@ -33,7 +34,6 @@ def time_heap(runs,n, build_option):
 
 # test_building_heaps()
 
-
 # sys.stdout = open('n_1_10000', 'w')
 # for i in range(1,10000,10):
 #     print(i)
@@ -46,3 +46,6 @@ def time_heap(runs,n, build_option):
 # time_heap(15,10000, 3)
 # sys.stdout = open('heap_3_modified', 'w')
 # time_heap(15,10000, 4)
+
+# sys.stdout = open('k-heap', 'w')
+# time_heap(15,10000, 10)

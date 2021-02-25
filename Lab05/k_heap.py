@@ -16,9 +16,7 @@ class kHeap:
 
     def sink(self, i):
         largest_known = i
-
         chd = self.children(i)
-
         max_value = self.data[i]
         for x in chd:
             if x < self.length and self.data[x] > max_value:
@@ -26,11 +24,9 @@ class kHeap:
                 largest_known = x
             else:
                 break
-
         if largest_known != i:
             self.data[i], self.data[largest_known] = self.data[largest_known], self.data[i]
-            self.sink(largest_known)
-            
+            self.sink(largest_known)    
 
     def insert(self, value):
         if len(self.data) == self.length:
@@ -58,11 +54,9 @@ class kHeap:
 
     def children(self, i):
         chd = []
-
         for x in range(1, self.k+1):
             chd.append(i*self.k+x)
         return chd
 
     def parent(self, i):
-        return (i + 1) // self.k - 1
-
+        return math.ceil(i / (self.k)) - 1
