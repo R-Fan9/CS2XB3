@@ -15,9 +15,11 @@ class Heap:
 
     def build_heap2(self):
         #TODO
+        pass
 
     def build_heap3(self):
         #TODO
+        pass
 
     def sink(self, i):
         largest_known = i
