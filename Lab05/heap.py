@@ -11,23 +11,14 @@ class Heap:
             self.build_heap1()
         elif build_option == 2:
             self.build_heap2(L)
-        else:
+        elif build_option == 3:
             self.data = L
             self.length = len(L)
             self.build_heap3()
-
-        #   build_heap1:
-        # self.data = L
-        # self.length = len(L)
-        # self.build_heap1()
-
-        #   build_heap2:
-        # self.build_heap2(L)
-
-        #   build_heap3:
-        # self.data = L
-        # self.length = len(L)
-        # self.build_heap3()
+        else:
+            self.data = L
+            self.length = len(L)
+            self.build_heap3_modified()
 
     def build_heap1(self):
         for i in range(self.length // 2 - 1, -1, -1):
@@ -38,11 +29,18 @@ class Heap:
             self.insert(elem)
 
     def build_heap3(self):
-        while not self.is_heap():
+       while not self.is_heap():
             for i in range(self.length):
                 self.sink(i)
 
-    def is_heap(self):
+    def build_heap3_modified(self):
+        counter=1
+        while not self.is_heap():
+            for i in range(self.length // (2*counter)):
+                self.sink(i)
+            counter+=1
+
+    def is_heap(self):  
         for i in range(self.length // 2):
             left = self.left(i)
             right = self.right(i)
