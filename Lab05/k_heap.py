@@ -11,6 +11,7 @@ class kHeap:
         self.build_heap()
 
     def build_heap(self):
+    
         for i in range(self.length // self.k - 1, -1, -1):
             self.sink(i)
 
@@ -18,7 +19,6 @@ class kHeap:
         largest_known = i
 
         chd = self.children(i)
-
         max_value = self.data[i]
         for x in chd:
             if x < self.length and self.data[x] > max_value:
@@ -64,5 +64,5 @@ class kHeap:
         return chd
 
     def parent(self, i):
-        return (i + 1) // self.k - 1
+        return 2 // self.k + (i - 1) // self.k
 
