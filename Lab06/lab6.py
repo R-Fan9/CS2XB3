@@ -56,7 +56,6 @@ class RBNode:
         x.right = self
         x.colour = self.colour
         self.colour = "R"
-        self = x 
 
     def rotate_left(self):
         x = self.right
@@ -64,12 +63,6 @@ class RBNode:
         x.left = self
         x.colour = self.colour
         self.colour = "R"
-        self = x 
-    
-    def color_flip(self):
-        self.color = "R"
-        self.left.colour = "B"
-        self.right.colour = "B"
 
 
 
@@ -118,36 +111,14 @@ class RBTree:
         #You may alter code in this method if you wish, it's merely a guide.
         if node.parent == None:
             node.make_black()
-        
-        if node.parent.is_black():
-            return
 
         while node != None and node.parent != None and node.parent.is_red(): 
-            if node.get_uncle() == None or node.uncle_is_black():
-                if node.parent.left == None: ## RR LR 
-                    if node.parent.value < node.parent.parent.value: # LR
-                        node.parent.rotate_left()
-                        node.parent.parent.rotate_right()
-                    else: # RR
-                        node.parent.parent.rotate_left()
-                else: # node.parent.right == None:
-                    if node.parent.value < node.parent.parent.value: # LL
-                        print("OMG")
-                        node.parent.parent.rotate_right()
-                    else: # RL
-                        node.parent.rotate_right()
-                        node.parent.parent.rotate_left()
-            else:
-                node = node.parent.parent
-                node.color_flip()
+            #TODO
+
         
         self.root.make_black()
                     
-# tree= RBTree()
-# tree.insert(20)
-# tree.insert(3)
-# tree.insert(1)  
-
+        
     def __str__(self):
         if self.is_empty():
             return "[]"
