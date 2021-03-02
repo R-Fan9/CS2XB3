@@ -73,12 +73,13 @@ class RBNode:
                 self.parent.right = x
             else:
                 self.parent.left = x
+        else:
+            x.parent = None
         self.parent = x
         self.right = x.left
         x.left = self
         x.colour = self.colour
         self.make_red()
-
         return x
     
     def color_flip(self):
@@ -143,9 +144,12 @@ class RBTree:
                         else:
                             node.parent = node.get_grandparent().rotate_right()
                     else: # RR
+                        print("RR")
                         if node.get_grandparent() == self.root:
+                            print(node.get_grandparent())
                             self.root = node.get_grandparent().rotate_left()
                         else:
+                            print("RReslse")
                             node.parent = node.get_grandparent().rotate_left()
                 else: # node.parent.right == None:
                     if node.parent.value < node.get_grandparent().value: # LL
