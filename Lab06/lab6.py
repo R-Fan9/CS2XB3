@@ -54,7 +54,11 @@ class RBNode:
         #TODO
 
     def rotate_left(self):
-        #TODO
+        x = self.right
+        self.right = x.left
+        x.left = self
+        x.colour = self.colour
+        self.colour = "R"
 
 
 
