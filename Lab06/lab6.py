@@ -7,9 +7,6 @@ class RBNode:
         self.parent = None
         self.colour = "R"
 
-    def get_uncle(self):
-        return
-
     def is_leaf(self):
         return self.left == None and self.right == None
 
@@ -52,18 +49,29 @@ class RBNode:
 
     def rotate_right(self):
         x = self.left
+        x.parent = self.parent
+        self.parent = x
         self.left = x.right
         x.right = self
         x.colour = self.colour
         self.colour = "R"
 
+        return x
+
     def rotate_left(self):
         x = self.right
+        x.parent = self.parent
+        self.parent = x
         self.right = x.left
         x.left = self
         x.colour = self.colour
         self.colour = "R"
+        return x
 
+    def color_flip(self):
+        self.color = "R"
+        self.left.colour = "B"
+        self.right.colour = "B"
 
 
 class RBTree:
@@ -108,13 +116,40 @@ class RBTree:
                 self.__insert(node.right, value)
 
     def fix(self, node):
+        print(node.value)
         #You may alter code in this method if you wish, it's merely a guide.
         if node.parent == None:
             node.make_black()
+        
+        if node.parent.is_black():
+            return
 
         while node != None and node.parent != None and node.parent.is_red(): 
-            #TODO
+            if node.get_uncle() == None or node.uncle_is_black():
+                if node.parent.left == None: ## RR LR 
+                    if node.parent.value < node.parent.parent.value: # LR
+                        node.parent.rotate_left()
+                        node.parent.parent.rotate_right()
+                    else: # RR
+                        node.parent.parent.rotate_left()
+                else: # node.parent.right == None:
+                    if node.parent.value < node.parent.parent.value: # LL
+                        if node.parent.parent == self.root:
+                            self.root = node.parent.parent.rotate_right()
 
+                        elif node.parent.parent == node.parent.parent.parent.right:
+                            node.parent.parent.parent.right = node.parent.parent.rotate_right()
+
+                        else:
+                            node.parent.parent.parent.left = node.parent.parent.rotate_right()
+
+
+                    else: # RL
+                        node.parent.rotate_right()
+                        node.parent.parent.rotate_left()
+            else:
+                node = node.parent.parent
+                node.color_flip()
         
         self.root.make_black()
                     
