@@ -43,6 +43,48 @@ class BST:
         return 1 + max(self.__get_height(node.left), self.__get_height(node.right))
 
 
+# # A class to store a BST node
+# class Node:
+#     # Function to create a new binary tree node having a given key
+#     def __init__(self, key):
+#         self.data = key
+#         self.left = self.right = None
+ 
+ 
+# def inorder(root):
+ 
+#     if root is None:
+#         return
+ 
+#     inorder(root.left)
+#     print(root.data, end=' ')
+#     inorder(root.right)
+ 
+ 
+# def insertIterative(root, key):
+#     curr = root
+#     parent = None
+ 
+#     if root is None:
+#         return Node(key)
+ 
+#     while curr:
+#         parent = curr
+#         if key < curr.data:
+#             curr = curr.left
+#         else:
+#             curr = curr.right
+ 
+#     if key < parent.data:
+#         parent.left = Node(key)
+#     else:
+#         parent.right = Node(key)
+ 
+#     return root
+
+  
+
+
 
         
             

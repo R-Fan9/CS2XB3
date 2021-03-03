@@ -2,6 +2,17 @@ import random
 
 from rbt import *
 from bst import *
+import math
+import numpy
+
+def create_near_sorted_list(n, factor):
+    L = create_random_list(n)
+    L.sort()
+    for _ in range(math.ceil(n*factor)):
+        index1 = random.randint(0, n-1)
+        index2 = random.randint(0, n-1)
+        L[index1], L[index2] = L[index2], L[index1]
+    return L
 
 def create_random_list(n):
     L = []
@@ -41,9 +52,32 @@ def test_rand_list():
         rbt.insert(i)
     return rbt
 
+
+def test_near_factors(runs):
+    for i in numpy.arange(0, 0.55, 0.005):
+        ttl_ht_bst = 0
+        ttl_ht_rbt = 0
+
+
+        for run in range(runs):
+            bst = BST()
+            rbt = RBTree()
+            L=create_near_sorted_list(901,i)
+
+            for x in L:
+                bst.insert(x)
+
+            for y in L:
+                rbt.insert(y)
+            ttl_ht_bst += bst.get_height()
+            ttl_ht_rbt += rbt.get_height()
+
+        print(i, ttl_ht_bst/runs, ttl_ht_rbt/runs)
+
+test_near_factors(5)
 # test_rand_list()
 
-# print(test_height())
+#print(test_height())
 
 # test_height_10000_3times()    
 
