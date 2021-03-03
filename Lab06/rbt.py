@@ -58,8 +58,6 @@ class RBNode:
                 self.parent.right = x
             else:
                 self.parent.left = x
-        else:
-            x.parent = None
 
         self.parent = x
         self.left = x.right
@@ -77,8 +75,7 @@ class RBNode:
                 self.parent.right = x
             else:
                 self.parent.left = x
-        else:
-            x.parent = None
+ 
         self.parent = x
         self.right = x.left
         x.left = self
@@ -140,14 +137,13 @@ class RBTree:
             return
         while node != None and node.parent != None and node.parent.is_red(): 
 
-            print(node, node.parent, node.get_uncle(), node.get_grandparent())
-
+            #print(node, node.parent, node.get_uncle(), node.get_grandparent())
             if node.get_uncle() == None or node.uncle_is_black():
 
                 if node.is_right_child(): ## RR LR 
 
                     if node.parent.is_left_child(): # LR
-                        print("LR")
+                        #print("LR")
                         node = node.parent.rotate_left()
                         node = node.left
                         if node.get_grandparent() == self.root:
@@ -155,7 +151,7 @@ class RBTree:
                         else:
                             node.parent = node.get_grandparent().rotate_right()
                     else: # RR
-                        print("RR")
+                        #print("RR")
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_left()
                         else:
@@ -163,22 +159,22 @@ class RBTree:
 
                 else: # node.is_left_child() or node.get_grandparent().right == node.get_uncle():
                     if node.parent.is_left_child(): # LL
-                        print("LL")
+                        #print("LL")
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_right()
                         else:
                             node.parent = node.get_grandparent().rotate_right()
                     else: # RL
-                        print("RL")
+                        #print("RL")
                         print(node,node.parent,node.parent.parent)
                         node = node.parent.rotate_right()
                         node = node.right
                         print(node,node.parent,node.parent.parent)
                         if node.get_grandparent() == self.root:
-                            print("A")
+                            #print("A")
                             self.root = node.get_grandparent().rotate_left()
                         else:
-                            print("B")
+                            #print("B")
                             node.parent = node.get_grandparent().rotate_left()
             else:
                 node = node.get_grandparent()
