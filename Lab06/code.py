@@ -1,6 +1,4 @@
 import random
-import timeit
-import sys
 
 from rbt import *
 from bst import *
@@ -11,18 +9,43 @@ def create_random_list(n):
         L.append(random.randint(1,n))
     return L
 
-bst = BST()
-tree = RBTree()
-
-def test_height():
-    global tree
+def test_height_10000_3times():
     tree = RBTree()
     for _ in range(3):
         for i in range(1,10001):
             tree.insert(i)
         print(tree.get_height())
 
-# test_height()
+def test_height_helper(runs):
+    ttl_ht_bst = 0
+    ttl_ht_rbt = 0
+    for run in range(runs):
+        bst = BST()
+        rbt = RBTree()
+        L=create_random_list(10000)
+        for i in L:
+            bst.insert(i)
+            rbt.insert(i)
+        ttl_ht_bst += bst.get_height()
+        ttl_ht_rbt += rbt.get_height()
+    return abs(ttl_ht_bst/runs - ttl_ht_rbt/runs)
+
+def test_height():
+    diff = test_height_helper(10)
+    return diff
+
+def test_rand_list():
+    rbt = RBTree()
+    n = create_random_list(999)
+    for i in n:
+        rbt.insert(i)
+    return rbt
+
+# test_rand_list()
+
+# print(test_height())
+
+# test_height_10000_3times()    
 
 # x= RBNode(20)
 # x.left =  RBNode(3)
@@ -65,4 +88,3 @@ def test_height():
 # tree.insert(135)
 # tree.insert(75)
 # str(tree) == "[[[[[(75,R)] <- (100,B)] <- (135,R) -> [(150,B)]] <- (200,B) -> [[[(300,R)] <- (325,B) -> [(325,R)]] <- (350,R) -> [[(375,R)] <- (400,B)]]]]"
-

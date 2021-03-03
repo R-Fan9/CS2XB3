@@ -51,34 +51,43 @@ class RBNode:
         return self.parent.parent
 
     def rotate_right(self):
-        x = self.left
-        x.parent = self.parent
-        if self.parent != None:
-            if self.is_right_child():
-                self.parent.right = x
+        s = self
+        x = s.left
+        s.left = x.right
+        x.parent = s.parent
+        if x.right != None:
+            x.right.parent = s
+        if s.parent != None:
+            if s.is_right_child():
+                s.parent.right = x
             else:
-                self.parent.left = x
-        self.parent = x
-        self.left = x.right
-        x.right = self
-        x.colour = self.colour  
-        self.make_red()
-        return x
+                s.parent.left = x
+        x.right = s
+        s.parent = x
+        x.colour = s.colour  
+        s.make_red()
+        if x.parent == None:
+            return x
+
 
     def rotate_left(self):
-        x = self.right
-        x.parent = self.parent
-        if self.parent != None:
-            if self.is_right_child():
-                self.parent.right = x
+        s = self
+        x = s.right
+        s.right = x.left
+        x.parent = s.parent
+        if x.left != None:
+            x.left.parent = s
+        if s.parent != None:
+            if s.is_right_child():
+                s.parent.right = x
             else:
-                self.parent.left = x
-        self.parent = x
-        self.right = x.left
-        x.left = self
-        x.colour = self.colour
-        self.make_red()
-        return x
+                s.parent.left = x
+        x.left = s
+        s.parent = x
+        x.colour = s.colour
+        s.make_red()
+        if x.parent == None:
+            return x
     
     def color_flip(self):
         self.make_red()
@@ -135,30 +144,30 @@ class RBTree:
             if node.get_uncle() == None or node.uncle_is_black():
                 if node.is_right_child():
                     if node.parent.is_left_child(): # LR
-                        node = node.parent.rotate_left()
-                        node = node.left
+                        node = node.parent
+                        node.rotate_left()
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_right()
                         else:
-                            node.parent = node.get_grandparent().rotate_right()
+                            node.get_grandparent().rotate_right()
                     else: # RR
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_left()
                         else:
-                            node.parent = node.get_grandparent().rotate_left()
+                            node.get_grandparent().rotate_left()
                 else:
                     if node.parent.is_left_child(): # LL
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_right()
                         else:
-                            node.parent = node.get_grandparent().rotate_right()
+                            node.get_grandparent().rotate_right()
                     else: # RL
-                        node = node.parent.rotate_right()
-                        node = node.right
+                        node = node.parent
+                        node.rotate_right()
                         if node.get_grandparent() == self.root:
                             self.root = node.get_grandparent().rotate_left()
                         else:
-                            node.parent = node.get_grandparent().rotate_left()
+                            node.get_grandparent().rotate_left()
             else:
                 node = node.get_grandparent()
                 node.color_flip()
