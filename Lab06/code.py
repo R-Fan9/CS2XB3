@@ -5,7 +5,6 @@ import sys
 from rbt import *
 from bst import *
 
-
 def create_random_list(n):
     L = []
     for _ in range(n):
