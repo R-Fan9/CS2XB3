@@ -5,25 +5,41 @@ import sys
 from rbt import *
 from bst import *
 
-
 def create_random_list(n):
     L = []
     for _ in range(n):
         L.append(random.randint(1,n))
     return L
 
-bst = BST()
-tree = RBTree()
+def test_height_helper(runs):
+    ttl_ht_bst = 0
+    ttl_ht_rbt = 0
+    for run in range(runs):
+        bst = BST()
+        rbt = RBTree()
+        L=create_random_list(10001)
+        for i in L:
+            bst.insert(i)
+            rbt.insert(i)
+        ttl_ht_bst += bst.get_height()
+        ttl_ht_rbt += rbt.get_height()
+        
+
+    return abs(ttl_ht_bst/runs - ttl_ht_rbt/runs)
+
+
 def test_height():
-    global tree
-    tree = RBTree()
+    diff = test_height_helper(10)
+    return diff
 
-    for i in range(3):
-        for j in range(1,10001):
-            tree.insert(j)
-            bst.insert(j)
 
-        print(tree.get_height())
+def test_rand_list():
+    rbt = RBTree()
+    n = create_random_list(1001)
+    for i in n:
+        rbt.insert(i)
 
-test_height()
+    return rbt
+
+#print(test_height())
 
