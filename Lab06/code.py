@@ -35,7 +35,7 @@ def test_height():
 
 def test_rand_list():
     rbt = RBTree()
-    n = create_random_list(1001)
+    n = create_random_list(999)
     for i in n:
         rbt.insert(i)
 
