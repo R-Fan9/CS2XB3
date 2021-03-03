@@ -3,7 +3,16 @@ import timeit
 import sys
 
 from rbt import *
+from bst import *
 
+
+def create_random_list(n):
+    L = []
+    for _ in range(n):
+        L.append(random.randint(1,n))
+    return L
+
+bst = BST()
 tree = RBTree()
 
 def test_height():
@@ -57,3 +66,4 @@ def test_height():
 # tree.insert(135)
 # tree.insert(75)
 # str(tree) == "[[[[[(75,R)] <- (100,B)] <- (135,R) -> [(150,B)]] <- (200,B) -> [[[(300,R)] <- (325,B) -> [(325,R)]] <- (350,R) -> [[(375,R)] <- (400,B)]]]]"
+
