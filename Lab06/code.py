@@ -1,10 +1,54 @@
 import random
-
-from rbt import *
-from bst import *
+import sys
 import math
 import numpy
 
+from rbt import *
+
+class BSTNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+        self.parent = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, value):
+        if(self.root == None):
+            self.root = BSTNode(value)
+        else:
+            self.__insert(self.root, value)
+            
+    def __insert(self, node, value):
+        newNode = BSTNode(value)
+        if value < node.value:
+            if node.left == None: 
+                node.left = newNode
+                node.left.parent = node
+            else:
+                self.__insert(node.left, value)
+        else:
+            if node.right == None: 
+                node.right = newNode
+                node.right.parent = node
+            else:
+                self.__insert(node.right, value)
+
+    
+    def get_height(self):
+        if self.root == None:
+            return 0
+        return self.__get_height(self.root)
+
+
+    def __get_height(self, node):
+        if node == None:
+            return 0
+        return 1 + max(self.__get_height(node.left), self.__get_height(node.right))
+    
 def create_near_sorted_list(n, factor):
     L = create_random_list(n)
     L.sort()
@@ -20,12 +64,13 @@ def create_random_list(n):
         L.append(random.randint(1,n))
     return L
 
+# testing if the height is decreasing as 10000 elements get inserted several times
 def test_height_10000_3times():
     tree = RBTree()
-    for _ in range(3):
-        for i in range(1,10001):
+    for k in range(3):
+        for i in range(1,1001):
             tree.insert(i)
-        print(tree.get_height())
+        print(k, tree.get_height())
 
 def test_height_helper(runs):
     ttl_ht_bst = 0
@@ -41,10 +86,12 @@ def test_height_helper(runs):
         ttl_ht_rbt += rbt.get_height()
     return abs(ttl_ht_bst/runs - ttl_ht_rbt/runs)
 
+# testing height of RBT vs height of BST for random list of length 10000
 def test_height():
     diff = test_height_helper(10)
     return diff
 
+# testing if RBT works as expected for inserting random elements
 def test_rand_list():
     rbt = RBTree()
     n = create_random_list(999)
@@ -52,7 +99,7 @@ def test_rand_list():
         rbt.insert(i)
     return rbt
 
-
+#testing near-factor for RBT vs BST
 def test_near_factors(runs):
     for i in numpy.arange(0, 0.55, 0.005):
         ttl_ht_bst = 0
@@ -74,16 +121,19 @@ def test_near_factors(runs):
 
         print(i, ttl_ht_bst/runs, ttl_ht_rbt/runs)
 
-test_near_factors(5)
+# sys.stdout = open('factor', 'w')
+# test_near_factors(5)
+
 # test_rand_list()
 
-#print(test_height())
+# print(test_height())
 
 # test_height_10000_3times()    
 
-# x= RBNode(20)
+# x = RBNode(20)
 # x.left =  RBNode(3)
 # x.left.left =  RBNode(1)
+# print(x)
 
 # tree= RBTree()
 # tree.insert(20)
@@ -92,6 +142,7 @@ test_near_factors(5)
 # tree.insert(-2)  
 # tree.insert(-22)
 # tree.insert(-2222)
+# print(tree)
 
 # tree= RBTree()
 # tree.insert(20)
@@ -100,6 +151,7 @@ test_near_factors(5)
 # tree.insert(-2)  
 # tree.insert(-22)
 # tree.insert(-2222)
+# print(tree)
 
 # tree= RBTree()
 # tree.insert(20)
