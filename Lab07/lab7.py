@@ -22,9 +22,8 @@ class Graph:
             self.adj[node1].append(node2)
             self.adj[node2].append(node1)
 
-    def number_of_nodes():
-        return len()
-
+    def number_of_nodes(self):
+        return len(self.adj)
 
 #Breadth First Search
 def BFS(G, node1, node2):
@@ -43,19 +42,18 @@ def BFS(G, node1, node2):
                 marked[node] = True
     return False
 
-
-#Depth First Search
-def DFS(G, node1, node2):
-    S = [node1]
+def BFS2(G, src, dest):
+    Q = deque([src])
     marked = {}
-    for node in G.adj:
-        marked[node] = False
-    while len(S) != 0:
-        current_node = S.pop()
-        if not marked[current_node]:
+    path = []
+    while len(Q) != 0:
+        current_node = Q.popleft()
+        if current_node == dest:
+            path.append(current_node)
+            return path
+        if current_node not in marked:
+            path.append(current_node)
             marked[current_node] = True
             for node in G.adj[current_node]:
-                if node == node2:
-                    return True
-                S.append(node)
-    return False
+                Q.append(node)
+    return []
