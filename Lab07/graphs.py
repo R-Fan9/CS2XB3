@@ -98,7 +98,7 @@ def DFS2(G, node1, node2):
                     result.append(node)
                     return result
                 S.append(node)
-    return result
+    return []
 
 def DFS3(G, node1):
     result = {}
