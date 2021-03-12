@@ -4,6 +4,8 @@ from rbt import *
 from bst import *
 import math
 import numpy
+import sys
+
 
 def create_near_sorted_list(n, factor):
     L = create_random_list(n)
@@ -74,10 +76,11 @@ def test_near_factors(runs):
 
         print(i, ttl_ht_bst/runs, ttl_ht_rbt/runs)
 
-test_near_factors(5)
+#sys.stdout = open('near_sort', 'w')
+#test_near_factors(5)
 # test_rand_list()
 
-#print(test_height())
+print(test_height())
 
 # test_height_10000_3times()    
 
