@@ -57,20 +57,23 @@ def DFS(G, node1, node2):
                 S.append(node)
     return False
 
-def BFS2(G, src, dest):
-    Q = deque([src])
-    marked = {}
-    path = []
+def BFS2(G, node1, node2):
+    result =[]
+    Q = deque([node1])
+    marked = {node1 : True}
+    for node in G.adj:
+        if node != node1:
+            marked[node] = False
     while len(Q) != 0:
         current_node = Q.popleft()
-        if current_node == dest:
-            path.append(current_node)
-            return path
-        if current_node not in marked:
-            path.append(current_node)
-            marked[current_node] = True
-            for node in G.adj[current_node]:
+        result.append(current_node)
+        for node in G.adj[current_node]:
+            if node == node2:
+                result.append(node)
+                return result
+            if not marked[node]:
                 Q.append(node)
+                marked[node] = True
     return []
 
 def BFS3(G, node1):
